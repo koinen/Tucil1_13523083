@@ -1,21 +1,27 @@
-public class Solution {
+public class Game {
     public long runtime;
     public long iterations;
+    public boolean solved;
     public Board board;
     public Piece[] pieces;
-    public boolean solved;
+    public boolean invalid;
     private boolean deadend;
-    public Solution(Piece[] p, Board b) {
-        iterations = 0;
+    public Game(Piece[] p, Board b) {
         board = b;
         pieces = p;
         // Start the timer (in milliseconds)
+    }
+    public Game() {
+        invalid = true;
+    }
+    public void solve() {
+        iterations = 0;
         long startTime = System.currentTimeMillis();
-        solve(0, 0, 0);
+        solveRecurse(0, 0, 0);
         long endTime = System.currentTimeMillis();
         runtime = endTime - startTime;
     }
-    private void solve(int idx, int r, int c) {
+    private void solveRecurse(int idx, int r, int c) {
         if (solved || deadend) {
             return;
         }
@@ -33,7 +39,7 @@ public class Solution {
 //                    board.printBoard();
 //                    System.out.println();
                     if (idx != pieces.length - 1) {
-                        solve(idx + 1, 0, 0);
+                        solveRecurse(idx + 1, 0, 0);
                     }
                     if (board.isSolved()) {
                         solved = true;
@@ -46,9 +52,9 @@ public class Solution {
 //                    System.out.println();
                     deadend = false;
                 }
-                solve(idx, r, c + 1);
+                solveRecurse(idx, r, c + 1);
             }
-            solve(idx, r + 1, 0);
+            solveRecurse(idx, r + 1, 0);
         }
         else {
             if (pieces[idx].rotation < 3) {
@@ -64,7 +70,7 @@ public class Solution {
                 pieces[idx] = pieces[idx].reset();
                 return;
             }
-            solve(idx, 0, 0);
+            solveRecurse(idx, 0, 0);
         }
     }
 }
