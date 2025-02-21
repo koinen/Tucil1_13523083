@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 public class GUI extends Application {
     public static void show() {
@@ -56,18 +57,30 @@ public class GUI extends Application {
                         vb.getChildren().add(new ImageView(SwingFXUtils.toFXImage(boardImage, null)));
                         String stats = "Runtime: " + game.runtime + "ms" + "    Iterations: " + game.iterations;
                         vb.getChildren().add(new Label(stats));
-                        label = new Label("Image File Name: ");
+                        label = new Label("File Name: ");
                         TextField fileName = new TextField();
                         fileName.setMaxWidth(100);
                         vb.getChildren().add(label);
                         vb.getChildren().add(fileName);
-                        Button save = new Button();
-                        save.setText("Save to Image");
-                        save.setOnAction(_ -> {
+                        Button saveImage = new Button();
+                        saveImage.setText("Save as Image");
+                        saveImage.setOnAction(_ -> {
                             imageMaker.imageSave(boardImage, fileName.getText());
                             popup.close();
                         });
-                        vb.getChildren().add(save);
+                        vb.getChildren().add(saveImage);
+                        Button saveText = new Button();
+                        saveText.setText("Save as Text");
+                        saveText.setOnAction(_ -> {
+                            try {
+                                imageMaker.saveText(game.board, fileName.getText());
+                            } catch (IOException e) {
+                                Alert err = new Alert(Alert.AlertType.ERROR, "File writing error!", ButtonType.CLOSE);
+                                err.show();
+                            }
+                            popup.close();
+                        });
+                        vb.getChildren().add(saveText);
                         vb.setAlignment(Pos.CENTER);
                         popup.setScene(new Scene(vb, 920, 660));
                         popup.initModality(Modality.APPLICATION_MODAL);

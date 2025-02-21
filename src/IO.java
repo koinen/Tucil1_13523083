@@ -2,6 +2,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -117,14 +118,13 @@ public class IO {
                     }
                 }
                 pieces[i] = new Piece(pieceString, i + 1);
-                //                    pieces[i].printPiece();
-            }
-            if (i < p) {
-                return new Game();
+//                pieces[i].printPiece();
             }
             if (!lastPiece.isEmpty()) {
                 pieces[p - 1] = new Piece(lastPiece, p);
                 //                    pieces[p - 1].printPiece();
+            } else if (i < p) {
+                return new Game();
             }
             return new Game(pieces, new Board(n, m));
         } catch (FileNotFoundException e) {
@@ -139,10 +139,24 @@ public class IO {
         System.out.print(escCodes[colorCode] + a + resetCode);
     }
 
+    public void saveText(Board board, String fileName) throws IOException {
+        try (FileWriter f = new FileWriter("result/" + fileName)) {
+            for (int i = 0; i < board.getRow(); i++) {
+                for (int j = 0; j < board.getCol(); j++) {
+                    f.write((char) ('A' + (board.matrix[i][j] - 1)));
+                }
+                if (i == board.getRow() - 1) break;
+                f.write('\n');
+            }
+        } catch (IOException e) {
+            System.out.println("Error writing to file: " + e.getMessage());
+        }
+    }
+
     public BufferedImage generateImage(Board board) {
         int r = board.getRow(), c = board.getCol();
         int size = 400 / max(r, c);
-        int width = size * r, height = size * c;
+        int height = size * r, width = size * c;
 
         // Create buffered image object
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
