@@ -1,7 +1,13 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Scanner;
+
+import static java.lang.Integer.max;
 
 public class IO {
     private final String[] escCodes;
@@ -64,30 +70,102 @@ public class IO {
         hexCodes[24] = 0x87afff;
         hexCodes[25] = 0x767676;
     }
+    public static Game readConfigFile(File file) {
+        try {
+            Scanner sc = new Scanner(file);
+            int n, m, p;
+            if (sc.hasNextInt()) {
+                n = sc.nextInt();
+                //                    System.out.println("n: " + n);
+            } else {
+                throw new IOException("Invalid config file!");
+            }
+            if (sc.hasNextInt()) {
+                m = sc.nextInt();
+                //                    System.out.println("m: " + m);
+            } else {
+                throw new IOException("Invalid config file!");
+            }
+            if (sc.hasNextInt()) {
+                p = sc.nextInt();
+                //                    System.out.println("p: " + p);
+            } else {
+                throw new IOException("Invalid config file!");
+            }
+            sc.nextLine();
+            if (!Objects.equals(sc.nextLine(), "DEFAULT")) {
+                throw new IOException("Invalid config file!");
+            }
+            Piece[] pieces = new Piece[p];
+            ArrayList<String> lastPiece = new ArrayList<>();
+            String temp = sc.nextLine();
+            int i;
+            for (i = 0; i < p && sc.hasNextLine(); i++) {
+                ArrayList<String> pieceString = new ArrayList<>();
+                pieceString.add(temp);
+                String line = sc.nextLine();
+                while (Piece.lineCheck(line) == i + 1 && sc.hasNextLine()) {
+                    pieceString.add(line);
+                    line = sc.nextLine();
+                }
+                temp = line;
+                if (!sc.hasNextLine()) {
+                    if (Piece.lineCheck(line) == i + 1) {
+                        pieceString.add(line);
+                    } else {
+                        lastPiece.add(line);
+                    }
+                }
+                pieces[i] = new Piece(pieceString, i + 1);
+                //                    pieces[i].printPiece();
+            }
+            if (i < p) {
+                return new Game();
+            }
+            if (!lastPiece.isEmpty()) {
+                pieces[p - 1] = new Piece(lastPiece, p);
+                //                    pieces[p - 1].printPiece();
+            }
+            return new Game(pieces, new Board(n, m));
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        } catch (IOException e) {
+            System.out.println("Config file invalid!");
+        }
+        return new Game();
+    }
+
     public void printColor(char a, int colorCode) {
         System.out.print(escCodes[colorCode] + a + resetCode);
     }
-    public void imageSave(Board board, String fileName) {
+
+    public BufferedImage generateImage(Board board) {
         int r = board.getRow(), c = board.getCol();
-        int width = 40 * r, height = 40 * c;
+        int size = 400 / max(r, c);
+        int width = size * r, height = size * c;
 
         // Create buffered image object
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        File f;
 
         for (int i = 0; i < r; i++) {
-            for (int n = 0; n < 39; n++) {
+            for (int n = 0; n < size-1; n++) {
                 for (int j = 0; j < c; j++) {
-                    for (int m = 0; m < 39; m++) {
-                        img.setRGB(j*40+m, i*40+n, hexCodes[board.matrix[i][j] - 1]);
+                    for (int m = 0; m < size-1; m++) {
+                        img.setRGB(j*size+m, i*size+n, hexCodes[board.matrix[i][j] - 1]);
                     }
                 }
             }
         }
+        return img;
+    }
+
+    public void imageSave(BufferedImage img, String fileName) {
+        File f;
         // write image
         try {
             f = new File("result/" + fileName);
             ImageIO.write(img, "png", f);
+            System.out.println("Result successfully saved to " + fileName);
         } catch (IOException e) {
             System.out.println("Error: " + e);
         }
