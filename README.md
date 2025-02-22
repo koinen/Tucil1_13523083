@@ -58,7 +58,7 @@ java -cp bin Main CLI
 ### How to Use
 1. Untuk menggunakan program, klik tombol 'Select Input Config File' untuk memilih file .txt yang berisi konfigurasi permainan.
 2. Setelah beberapa saat, akan muncul pop-up yang berisikan informasi solusi permainan.
-3. Apabila ingin menyimpan hasil solusi, dapat disimpan dengan memasukkan nama file penyimpanan dan klik tombol 'Save as Image' atau 'Save as Text' sesuai keinginan. Jika tidak, tutup pop-up.
+3. Apabila ingin menyimpan hasil solusi, dapat disimpan dengan memasukkan nama file penyimpanan dan klik tombol 'Save as Image' atau 'Save as Text' sesuai keinginan (Hasil penyimpanan akan disimpan di folder result). Jika tidak, tutup pop-up.
 4. Selamat mencoba!
 
 ## Author
