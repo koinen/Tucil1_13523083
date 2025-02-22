@@ -5,7 +5,7 @@ public class Piece {
     public int num;
     public int rotation;
     public boolean mirror;
-    public Piece(ArrayList<String> pieceString, int idx) {
+    public Piece(ArrayList<String> pieceString) {
         int row = pieceString.size();
         int col = 0;
         for (String s : pieceString) {
@@ -14,10 +14,10 @@ public class Piece {
         matrix = new boolean[row][col];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
-                matrix[i][j] = j < pieceString.get(i).length() && pieceString.get(i).charAt(j) == 'A' + (idx - 1);
+                matrix[i][j] = j < pieceString.get(i).length() && pieceString.get(i).charAt(j) != ' ';
             }
         }
-        num = idx;
+        num = lineCheck(pieceString.getFirst());
         rotation = 0;
         mirror = false;
     }
@@ -108,7 +108,7 @@ public class Piece {
         pieceString.add("AA");
         pieceString.add("AAAA");
         pieceString.add("A");
-        Piece piece = new Piece(pieceString, 1);
+        Piece piece = new Piece(pieceString);
         piece.printPiece();
         System.out.println("Rotated 90:");
         piece = piece.rotate();

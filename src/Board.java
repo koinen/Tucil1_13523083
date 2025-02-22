@@ -76,11 +76,11 @@ public class Board {
         ArrayList<String> pieceString = new ArrayList<>();
         pieceString.add("A");
         pieceString.add("AA");
-        pieces[0] = new Piece(pieceString, 1);
+        pieces[0] = new Piece(pieceString);
         pieceString = new ArrayList<>();
         pieceString.add("B");
         pieceString.add("BBBB");
-        pieces[1] = new Piece(pieceString, 2);
+        pieces[1] = new Piece(pieceString);
         // Test isFit
         System.out.println(board.isFit(pieces[0], 0, 0)); // true
         System.out.println(board.isFit(pieces[0], 0, 1)); // true

@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 import static java.lang.Integer.max;
 
@@ -97,27 +95,34 @@ public class IO {
             Piece[] pieces = new Piece[p];
             ArrayList<String> lastPiece = new ArrayList<>();
             String temp = sc.nextLine();
+            Map<Integer, Boolean> occurred = new HashMap<>();
             int i;
             for (i = 0; i < p && sc.hasNextLine(); i++) {
                 ArrayList<String> pieceString = new ArrayList<>();
                 pieceString.add(temp);
                 String line = sc.nextLine();
-                while (Piece.lineCheck(line) == i + 1 && sc.hasNextLine()) {
+                int currentPiece = Piece.lineCheck(temp);
+                if (occurred.get(currentPiece) == null) {
+                    occurred.put(currentPiece, true);
+                } else {
+                    return new Game();
+                }
+                while (Piece.lineCheck(line) == currentPiece && sc.hasNextLine()) {
                     pieceString.add(line);
                     line = sc.nextLine();
                 }
                 temp = line;
                 if (!sc.hasNextLine()) {
-                    if (Piece.lineCheck(line) == i + 1) {
+                    if (Piece.lineCheck(line) == currentPiece) {
                         pieceString.add(line);
                     } else {
                         lastPiece.add(line);
                     }
                 }
-                pieces[i] = new Piece(pieceString, i + 1);
+                pieces[i] = new Piece(pieceString);
             }
             if (!lastPiece.isEmpty()) {
-                pieces[p - 1] = new Piece(lastPiece, p);
+                pieces[p - 1] = new Piece(lastPiece);
             } else if (i < p) {
                 return new Game();
             }
@@ -151,7 +156,7 @@ public class IO {
     public BufferedImage generateImage(Board board) {
         int r = board.getRow(), c = board.getCol();
         int size = 400 / max(r, c);
-        int height = size * r, width = size * c;
+        int height = size * r - 1, width = size * c - 1;
 
         // Create buffered image object
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
