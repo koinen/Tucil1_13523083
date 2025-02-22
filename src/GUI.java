@@ -96,7 +96,7 @@ public class GUI extends Application {
         root.getChildren().add(label);
         label = new Label("Welcome to the Playground!");
         label.setFont(new Font(30));
-        File f = new File("image/ekko.jpg");
+        File f = new File("doc/ekko.jpg");
         Image image = new Image(f.toURI().toString());
         ImageView iv1 = new ImageView();
         iv1.setImage(image);
