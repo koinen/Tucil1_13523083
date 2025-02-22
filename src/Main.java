@@ -1,9 +1,10 @@
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         if (args.length == 0) { // Default run, GUI
             GUI.show();
         }
@@ -32,14 +33,27 @@ public class Main {
                         System.out.print("Save the results? (y/n) ");
                         String input = consoleInput.nextLine();
                         if (Objects.equals(input, "y")) {
-                            String dest;
-                            do {
-                                System.out.print("File name: ");
-                                dest = consoleInput.nextLine();
-                            } while (dest.isEmpty());
-                            IO helper = new IO();
-                            helper.imageSave(helper.generateImage(game.board), dest);
-                            break;
+                            System.out.println("1. Image");
+                            System.out.println("2. Text\n>> ");
+                            if (consoleInput.nextInt() == 1) {
+                                String dest;
+                                do {
+                                    System.out.print("File name: ");
+                                    dest = consoleInput.nextLine();
+                                } while (dest.isEmpty());
+                                IO helper = new IO();
+                                helper.imageSave(helper.generateImage(game.board), dest);
+                                break;
+                            } else if (consoleInput.nextInt() == 2) {
+                                String dest;
+                                do {
+                                    System.out.print("File name: ");
+                                    dest = consoleInput.nextLine();
+                                } while (dest.isEmpty());
+                                IO helper = new IO();
+                                helper.saveText(game.board, dest);
+                                break;
+                            }
                         } else if (Objects.equals(input, "n")) {
                             System.out.println("Thanks for playing!");
                             break;
