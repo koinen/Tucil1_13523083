@@ -67,12 +67,7 @@ public class GUI extends Application {
                         Button saveText = new Button();
                         saveText.setText("Save as Text");
                         saveText.setOnAction(event-> {
-                            try {
-                                imageMaker.saveText(game.board, fileName.getText());
-                            } catch (IOException e) {
-                                Alert err = new Alert(Alert.AlertType.ERROR, "File writing error!", ButtonType.CLOSE);
-                                err.show();
-                            }
+                            imageMaker.saveText(game.board, fileName.getText());
                             popup.close();
                         });
                         vb.getChildren().add(saveText);

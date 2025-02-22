@@ -121,9 +121,9 @@ public class IO {
                 }
                 pieces[i] = new Piece(pieceString);
             }
-            if (!lastPiece.isEmpty()) {
+            if (!lastPiece.isEmpty() && pieces[p-1] == null) {
                 pieces[p - 1] = new Piece(lastPiece);
-            } else if (i < p) {
+            } else if (i < p || (!lastPiece.isEmpty() && pieces[p-1] != null)) {
                 return new Game();
             }
             return new Game(pieces, new Board(n, m));
@@ -139,7 +139,7 @@ public class IO {
         System.out.print(escCodes[colorCode] + a + resetCode);
     }
 
-    public void saveText(Board board, String fileName) throws IOException {
+    public void saveText(Board board, String fileName) {
         try (FileWriter f = new FileWriter("result/" + fileName)) {
             for (int i = 0; i < board.getRow(); i++) {
                 for (int j = 0; j < board.getCol(); j++) {
