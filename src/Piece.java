@@ -13,7 +13,6 @@ public class Piece {
         }
         matrix = new boolean[row][col];
         for (int i = 0; i < row; i++) {
-//            System.out.println(pieceString.get(i).length());
             for (int j = 0; j < col; j++) {
                 matrix[i][j] = j < pieceString.get(i).length() && pieceString.get(i).charAt(j) == 'A' + (idx - 1);
             }
@@ -90,7 +89,6 @@ public class Piece {
         return new Piece(res, num, rotation, !mirror);
     }
     public Piece reset() { // only to be used on rotated 270 + mirrored!!
-//        System.out.println("rotation: " + rotation + " mirror: " + mirror);
         return this.rotate().mirror();
     }
     public void printPiece() {

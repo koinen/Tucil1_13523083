@@ -26,7 +26,7 @@ public class GUI extends Application {
         primaryStage.setTitle("IQ Puzzler Pro Puzzle-Solver");
         Button btn = new Button();
         btn.setText("Select Input Config File");
-        btn.setOnAction(_ -> {
+        btn.setOnAction(ae -> {
             final FileChooser fileChooser = new FileChooser();
             File inputPath = new File("./test/");
             fileChooser.setInitialDirectory(inputPath);
@@ -39,11 +39,6 @@ public class GUI extends Application {
                 } else {
                     game.solve();
                     IO imageMaker = new IO();
-                    //                Alert a1 = new Alert(Alert.AlertType.NONE,"", ButtonType.FINISH);
-                    //
-                    //                // show the dialog
-                    //                a1.show();
-                    //                System.out.println("Solved!");
                     if (game.solved) {
                         Stage popup = new Stage();
                         VBox vb = new VBox(10);
@@ -64,14 +59,14 @@ public class GUI extends Application {
                         vb.getChildren().add(fileName);
                         Button saveImage = new Button();
                         saveImage.setText("Save as Image");
-                        saveImage.setOnAction(_ -> {
+                        saveImage.setOnAction(event -> {
                             imageMaker.imageSave(boardImage, fileName.getText());
                             popup.close();
                         });
                         vb.getChildren().add(saveImage);
                         Button saveText = new Button();
                         saveText.setText("Save as Text");
-                        saveText.setOnAction(_ -> {
+                        saveText.setOnAction(event-> {
                             try {
                                 imageMaker.saveText(game.board, fileName.getText());
                             } catch (IOException e) {

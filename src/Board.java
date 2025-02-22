@@ -52,7 +52,6 @@ public class Board {
         if (c > 0 && matrix[r][c - 1] == toRemove) {removePieceHelper(r, c - 1); }
     }
     public void removePiece(Piece piece) {
-//        System.out.println("Removing piece " + piece.num);
         for (int i = 0; i < this.getRow(); i++) {
             for (int j = 0; j < this.getCol(); j++) {
                 if(matrix[i][j] == piece.num){

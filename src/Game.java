@@ -27,17 +27,8 @@ public class Game {
         }
         if (r + pieces[idx].getRow() - 1 < board.getRow()) {
             if (c + pieces[idx].getCol() - 1 < board.getCol()) {
-//                System.out.println("Currently on piece: " + pieces[idx].num + " on position: " + r + ", " + c);
-//                pieces[idx].printPiece();
-//                System.out.println();
-//                System.out.println("Board:");
-//                board.printBoard();
-//                System.out.println();
                 if (board.isFit(pieces[idx], r, c)) {
                     board.addPiece(pieces[idx], r, c);
-//                    System.out.println("FIT!! Board:");
-//                    board.printBoard();
-//                    System.out.println();
                     if (idx != pieces.length - 1) {
                         solveRecurse(idx + 1, 0, 0);
                     }
@@ -45,11 +36,7 @@ public class Game {
                         solved = true;
                         return;
                     }
-//                    System.out.println("Removing piece " + pieces[idx].num);
                     board.removePiece(pieces[idx]);
-//                    System.out.println("Removed Board:");
-//                    board.printBoard();
-//                    System.out.println();
                     deadend = false;
                 }
                 solveRecurse(idx, r, c + 1);
@@ -64,7 +51,6 @@ public class Game {
                 pieces[idx] = pieces[idx].mirror();
             }
             else {
-//                System.out.println("Dead end for piece " + pieces[idx].num);
                 deadend = true;
                 iterations++;
                 pieces[idx] = pieces[idx].reset();

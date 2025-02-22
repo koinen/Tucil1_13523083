@@ -46,7 +46,7 @@ public class Main {
                         }
                     }
                 } else {
-                    System.out.println("Not solved.");
+                    System.out.println("Unsolvable.");
                 }
             }
             consoleInput.close();

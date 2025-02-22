@@ -77,19 +77,16 @@ public class IO {
             int n, m, p;
             if (sc.hasNextInt()) {
                 n = sc.nextInt();
-                //                    System.out.println("n: " + n);
             } else {
                 throw new IOException("Invalid config file!");
             }
             if (sc.hasNextInt()) {
                 m = sc.nextInt();
-                //                    System.out.println("m: " + m);
             } else {
                 throw new IOException("Invalid config file!");
             }
             if (sc.hasNextInt()) {
                 p = sc.nextInt();
-                //                    System.out.println("p: " + p);
             } else {
                 throw new IOException("Invalid config file!");
             }
@@ -118,11 +115,9 @@ public class IO {
                     }
                 }
                 pieces[i] = new Piece(pieceString, i + 1);
-//                pieces[i].printPiece();
             }
             if (!lastPiece.isEmpty()) {
                 pieces[p - 1] = new Piece(lastPiece, p);
-                //                    pieces[p - 1].printPiece();
             } else if (i < p) {
                 return new Game();
             }
