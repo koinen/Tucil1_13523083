@@ -23,7 +23,7 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("IQ Puzzler Pro Puzzle-Solver");
+        primaryStage.setTitle("EKKO IQ Puzzler Pro Puzzle-Solver");
         Button btn = new Button();
         btn.setText("Select Input Config File");
         btn.setOnAction(ae -> {
